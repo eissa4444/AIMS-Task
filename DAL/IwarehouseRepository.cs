@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DAL
 {
-    interface IwarehouseRepository : IDisposable
+    public interface IwarehouseRepository : IDisposable
     {
         IEnumerable<Warehouse> GetWarehouses();
         Warehouse GetWarehouseById(int warehouseId);
