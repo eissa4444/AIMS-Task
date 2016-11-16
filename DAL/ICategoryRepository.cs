@@ -7,10 +7,10 @@ namespace DAL
     interface ICategoryRepository : IDisposable
     {
         IEnumerable<Category> GetCategories();
-        Warehouse GetCategoryById(int categoryId);
+        Category GetCategoryById(int categoryId);
         void InsertCategory(Category category);
         void DeleteCategory(int categoryId);
-        void UpdateWarehouse(Category Category);
+        void UpdateCategory(Category Category);
         void Save();
     }
 }
