@@ -31,13 +31,13 @@ namespace AIMS_TAsk.Controllers
         {
             try
             {
+                // TODO: Add insert logic here
                 if (ModelState.IsValid)
                 {
                     warehouseRepository.InsertWarehouse(warehouse);
                     return RedirectToAction("Index");
                 }
 
-                // TODO: Add insert logic here
 
                 return RedirectToAction("Index");
             }

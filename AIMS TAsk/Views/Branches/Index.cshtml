@@ -1,0 +1,47 @@
+﻿@model IEnumerable<BOL.Branch>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>The Branches</h2>
+
+<p>
+    @Html.ActionLink("Add new branch", "Create")
+</p>
+<table class="table">
+    <tr>
+        
+        <th>
+            @Html.DisplayName("Branch name: ")
+        </th>
+        <th>
+            @Html.DisplayName("Warehouse")
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mobile)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+       
+        <td>
+            @Html.DisplayFor(modelItem => item.b_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.w_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mobile)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.b_id }) |
+            @Html.ActionLink("Details", "Details", new { id = item.b_id }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.b_id })
+        </td>
+    </tr>
+}
+
+</table>

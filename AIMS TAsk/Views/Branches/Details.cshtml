@@ -1,0 +1,50 @@
+﻿@model BOL.Branch
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Branch</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayName("id: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.b_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Branch name: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.b_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayName("Warehouse: ")
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.w_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mobile)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.b_id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

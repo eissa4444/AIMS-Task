@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DAL
 {
-    class BrancheRepository : IbranchRepositoryl, IDisposable
+    public class BrancheRepository : IbranchRepositoryl, IDisposable
     {
         private StoreEntities _context;
 
@@ -15,14 +15,14 @@ namespace DAL
             _context = new StoreEntities();
         }
 
-       
+
         //public BrancheRepository()
         //{
         //    _context = new StoreEntities();
         //}
         public void DeleteBranch(int branchId)
         {
-            Branch branch =  _context.Branches.Find(branchId);
+            Branch branch = _context.Branches.Find(branchId);
             _context.Branches.Remove(branch);
             Save();
         }
@@ -81,7 +81,7 @@ namespace DAL
 
         // This code added to correctly implement the disposable pattern.
         public void Dispose()
-        { 
+        {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
             Dispose(true);
             // TODO: uncomment the following line if the finalizer is overridden above.

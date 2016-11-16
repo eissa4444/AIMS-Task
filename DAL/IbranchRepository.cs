@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DAL
 {
-    interface IbranchRepositoryl : IDisposable
+    public interface IbranchRepositoryl : IDisposable
     {
         IEnumerable<Branch> GetBranches();
         Branch GetBranchByID(int branchId);
