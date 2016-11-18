@@ -1,0 +1,63 @@
+﻿@model IEnumerable<BOL.Item>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.it_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.it_name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.c_id)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.price_a_discount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.price_b_discound)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.it_photo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.it_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.it_name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.c_id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.price_a_discount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.price_b_discound)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.it_photo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

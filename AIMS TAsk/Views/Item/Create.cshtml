@@ -7,7 +7,10 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("Create",
+                                    "item",
+                                    FormMethod.Post,
+                                    new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
     
@@ -16,11 +19,8 @@
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            @Html.LabelFor(model => model.it_id, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.it_id, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.it_id, "", new { @class = "text-danger" })
-            </div>
+            @Html.HiddenFor(model => model.it_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            
         </div>
 
         <div class="form-group">
@@ -32,9 +32,17 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(model => model.Category.Branch.b_id, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("b_id", null, "------", htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Category.Branch.b_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             @Html.LabelFor(model => model.c_id, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.c_id, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.DropDownList("c_id", new SelectList(string.Empty, "Value", "Text"), "------", htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.c_id, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -78,3 +86,36 @@
 <script src="~/Scripts/jquery-1.10.2.min.js"></script>
 <script src="~/Scripts/jquery.validate.min.js"></script>
 <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+
+<script>
+
+    $(document).ready(function () {
+        $("#b_id").change(function () {
+            $("#c_id").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCategories")', // we are calling json method
+
+                dataType: 'json',
+
+                data: { b_id: $("#b_id").val() },
+
+                success: function (categories) {
+                    // states contains the JSON formatted list
+                    // of states passed from the controller
+                    
+                    $.each(categories, function (index, category) {
+                        $("#c_id").append('<option value="' + category.Value + '">' +
+                             category.Text + '</option>');
+
+                    });
+                },
+                error: function (ex) {
+                    alert('Failed to retrieve states.' + ex);
+                }
+            });
+            return false;
+        })
+    });
+</script>

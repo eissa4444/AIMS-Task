@@ -27,6 +27,9 @@ namespace AIMS_TAsk.Controllers
         // GET: Item/Create
         public ActionResult Create()
         {
+            var items = itemRepository.GetItems();
+            ViewBag.b_id = new SelectList(_context.Branches, "b_id", "b_name");
+
             return View();
         }
 
@@ -123,20 +126,13 @@ namespace AIMS_TAsk.Controllers
             return View();
         }
 
-        // POST: Item/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
 
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
+        public JsonResult GetCategories(int b_id)
+        {
+            var categories = categoryRepository.GetCategories().Where(cat => cat.b_id == b_id);
+            var categoriesList = new SelectList(categories, "c_id", "c_name");
+            return Json(categoriesList);
         }
+
     }
 }
