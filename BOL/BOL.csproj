@@ -54,12 +54,15 @@
     <Compile Include="Branch.cs">
       <DependentUpon>Store.tt</DependentUpon>
     </Compile>
+    <Compile Include="BranchValidation.cs" />
     <Compile Include="Category.cs">
       <DependentUpon>Store.tt</DependentUpon>
     </Compile>
+    <Compile Include="CategoryValidation.cs" />
     <Compile Include="Item.cs">
       <DependentUpon>Store.tt</DependentUpon>
     </Compile>
+    <Compile Include="ItemValidation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Store.Context.cs">
       <AutoGen>True</AutoGen>
@@ -82,6 +85,10 @@
     <Compile Include="Warehouse.cs">
       <DependentUpon>Store.tt</DependentUpon>
     </Compile>
+    <Compile Include="WarehouseValidation.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <EntityDeploy Include="Store.edmx">
@@ -107,9 +114,6 @@
       <DependentUpon>Store.edmx</DependentUpon>
       <LastGenOutput>Store.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
