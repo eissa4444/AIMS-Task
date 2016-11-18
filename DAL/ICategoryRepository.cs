@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DAL
 {
-    interface ICategoryRepository : IDisposable
+    public interface ICategoryRepository : IDisposable
     {
         IEnumerable<Category> GetCategories();
         Category GetCategoryById(int categoryId);
