@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace DAL
 {
-    class ItemRepository : IitemRepository, IDisposable
+    public class ItemRepository : IitemRepository, IDisposable
     {
         StoreEntities _context;
 

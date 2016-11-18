@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace DAL
 {
-    interface IitemRepository : IDisposable
+    public interface IitemRepository : IDisposable
     {
         IEnumerable<Item> GetItems();
         Item GetItemByID(int itemId);

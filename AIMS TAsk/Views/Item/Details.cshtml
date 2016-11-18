@@ -1,0 +1,66 @@
+﻿@model BOL.Item
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Item</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.it_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.it_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.it_name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.it_name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.c_id)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.c_id)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.price_a_discount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price_a_discount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.price_b_discound)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.price_b_discound)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.it_photo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.it_photo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

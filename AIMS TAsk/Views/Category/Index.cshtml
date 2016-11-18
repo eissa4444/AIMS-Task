@@ -18,10 +18,10 @@
             @Html.DisplayNameFor(model => model.c_name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.b_id)
+            @Html.DisplayName("Branch")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.c_photo)
+            @Html.DisplayName("photo")
         </th>
         <th></th>
     </tr>
@@ -36,10 +36,11 @@
                 @Html.DisplayFor(modelItem => item.c_name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.b_id)
+                @Html.DisplayFor(modelItem => item.Branch.b_name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.c_photo)
+                <img class="img-circle" src="~/@item.c_photo" width="100" height="50" onerror="imgError(this);" />
+             @*   @Html.DisplayFor(modelItem => item.c_photo)*@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.c_id }) |
