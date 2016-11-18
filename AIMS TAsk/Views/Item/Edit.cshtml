@@ -7,7 +7,10 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit",
+    "item",FormMethod.Post,
+    new { enctype = "multipart/form-data" }))
+
 {
     @Html.AntiForgeryToken()
     
@@ -58,7 +61,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.it_photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.it_photo, new { htmlAttributes = new { @class = "form-control" } })
+                <input type="file" name="file" id="file" />
                 @Html.ValidationMessageFor(model => model.it_photo, "", new { @class = "text-danger" })
             </div>
         </div>

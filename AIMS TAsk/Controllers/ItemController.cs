@@ -97,7 +97,7 @@ namespace AIMS_TAsk.Controllers
                     string[] typeParameters = imageType.Split('/');
                     string photoExtention = typeParameters[1];
 
-                    string path = Path.Combine(Server.MapPath("~/Images/Items/"), "Category" + item.it_id + "." + photoExtention);
+                    string path = Path.Combine(Server.MapPath("~/Images/Items/"), "Item" + item.it_id + "." + photoExtention);
                     string RelativePath = path.Replace(Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty);
 
 
@@ -108,7 +108,7 @@ namespace AIMS_TAsk.Controllers
                     photo.Save(path);
 
                     TempData["InserMsg"] = "item Edited Successfully";
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index");   
                 }
                 return RedirectToAction("Index");
             }
