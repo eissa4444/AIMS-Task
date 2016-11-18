@@ -5,6 +5,14 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="StoreModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bill_orders">
+          <Key>
+            <PropertyRef Name="bill_id" />
+          </Key>
+          <Property Name="bill_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="total_price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="bill_date" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="Branches">
           <Key>
             <PropertyRef Name="b_id" />
@@ -33,6 +41,17 @@
           <Property Name="price_a_discount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="price_b_discound" Type="decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="it_photo" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="it_quantity" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Orders">
+          <Key>
+            <PropertyRef Name="ord_id" />
+          </Key>
+          <Property Name="ord_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="it_id" Type="int" Nullable="false" />
+          <Property Name="quantity" Type="int" Nullable="false" />
+          <Property Name="price_per_quantity" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="bill_id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -93,10 +112,38 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orders_Bill_orders">
+          <End Role="Bill_orders" Type="Self.Bill_orders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bill_orders">
+              <PropertyRef Name="bill_id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="bill_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Items1">
+          <End Role="Items" Type="Self.Items" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="it_id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="it_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="StoreModelStoreContainer">
+          <EntitySet Name="Bill_orders" EntityType="Self.Bill_orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Branches" EntityType="Self.Branches" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categories" EntityType="Self.Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Items" EntityType="Self.Items" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Orders" EntityType="Self.Orders" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="WareHouses" EntityType="Self.WareHouses" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Branches_WareHouses" Association="Self.FK_Branches_WareHouses">
@@ -111,12 +158,29 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Items" EntitySet="Items" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_Bill_orders" Association="Self.FK_Orders_Bill_orders">
+            <End Role="Bill_orders" EntitySet="Bill_orders" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orders_Items1" Association="Self.FK_Orders_Items1">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="StoreModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bill_orders">
+          <Key>
+            <PropertyRef Name="bill_id" />
+          </Key>
+          <Property Name="bill_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="total_price" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="bill_date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Bill_orders" FromRole="Bill_orders" ToRole="Orders" />
+        </EntityType>
         <EntityType Name="Branch">
           <Key>
             <PropertyRef Name="b_id" />
@@ -149,7 +213,21 @@
           <Property Name="price_a_discount" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="price_b_discound" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
           <Property Name="it_photo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="it_quantity" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Category" Relationship="Self.FK_Items_Categories" FromRole="Items" ToRole="Categories" />
+          <NavigationProperty Name="Orders" Relationship="Self.FK_Orders_Items1" FromRole="Items" ToRole="Orders" />
+        </EntityType>
+        <EntityType Name="Order">
+          <Key>
+            <PropertyRef Name="ord_id" />
+          </Key>
+          <Property Name="ord_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="it_id" Type="Int32" Nullable="false" />
+          <Property Name="quantity" Type="Int32" Nullable="false" />
+          <Property Name="price_per_quantity" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="bill_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bill_orders" Relationship="Self.FK_Orders_Bill_orders" FromRole="Orders" ToRole="Bill_orders" />
+          <NavigationProperty Name="Item" Relationship="Self.FK_Orders_Items1" FromRole="Orders" ToRole="Items" />
         </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
@@ -169,6 +247,20 @@
           <Property Name="w_name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Branches" Relationship="Self.FK_Branches_WareHouses" FromRole="WareHouses" ToRole="Branches" />
         </EntityType>
+        <Association Name="FK_Orders_Bill_orders">
+          <End Role="Bill_orders" Type="Self.Bill_orders" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bill_orders">
+              <PropertyRef Name="bill_id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="bill_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Branches_WareHouses">
           <End Role="WareHouses" Type="Self.Warehouse" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -211,12 +303,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orders_Items1">
+          <End Role="Items" Type="Self.Item" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Items">
+              <PropertyRef Name="it_id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="it_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="StoreEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bill_orders" EntityType="Self.Bill_orders" />
           <EntitySet Name="Branches" EntityType="Self.Branch" />
           <EntitySet Name="Categories" EntityType="Self.Category" />
           <EntitySet Name="Items" EntityType="Self.Item" />
+          <EntitySet Name="Orders" EntityType="Self.Order" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="WareHouses" EntityType="Self.Warehouse" />
+          <AssociationSet Name="FK_Orders_Bill_orders" Association="Self.FK_Orders_Bill_orders">
+            <End Role="Bill_orders" EntitySet="Bill_orders" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_Branches_WareHouses" Association="Self.FK_Branches_WareHouses">
             <End Role="WareHouses" EntitySet="WareHouses" />
             <End Role="Branches" EntitySet="Branches" />
@@ -229,6 +339,10 @@
             <End Role="Categories" EntitySet="Categories" />
             <End Role="Items" EntitySet="Items" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_Items1" Association="Self.FK_Orders_Items1">
+            <End Role="Items" EntitySet="Items" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -236,6 +350,15 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="StoreModelStoreContainer" CdmEntityContainer="StoreEntities">
+          <EntitySetMapping Name="Bill_orders">
+            <EntityTypeMapping TypeName="StoreModel.Bill_orders">
+              <MappingFragment StoreEntitySet="Bill_orders">
+                <ScalarProperty Name="bill_id" ColumnName="bill_id" />
+                <ScalarProperty Name="total_price" ColumnName="total_price" />
+                <ScalarProperty Name="bill_date" ColumnName="bill_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Branches">
             <EntityTypeMapping TypeName="StoreModel.Branch">
               <MappingFragment StoreEntitySet="Branches">
@@ -265,6 +388,18 @@
                 <ScalarProperty Name="price_a_discount" ColumnName="price_a_discount" />
                 <ScalarProperty Name="price_b_discound" ColumnName="price_b_discound" />
                 <ScalarProperty Name="it_photo" ColumnName="it_photo" />
+                <ScalarProperty Name="it_quantity" ColumnName="it_quantity" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orders">
+            <EntityTypeMapping TypeName="StoreModel.Order">
+              <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="ord_id" ColumnName="ord_id" />
+                <ScalarProperty Name="it_id" ColumnName="it_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price_per_quantity" ColumnName="price_per_quantity" />
+                <ScalarProperty Name="bill_id" ColumnName="bill_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

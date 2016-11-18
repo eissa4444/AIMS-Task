@@ -12,23 +12,18 @@ namespace BOL
     using System;
     using System.Collections.Generic;
     
-    public partial class Item
+    public partial class Bill_orders
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Item()
+        public Bill_orders()
         {
             this.Orders = new HashSet<Order>();
         }
     
-        public int it_id { get; set; }
-        public string it_name { get; set; }
-        public int c_id { get; set; }
-        public decimal price_a_discount { get; set; }
-        public decimal price_b_discound { get; set; }
-        public string it_photo { get; set; }
-        public int it_quantity { get; set; }
+        public int bill_id { get; set; }
+        public decimal total_price { get; set; }
+        public System.DateTime bill_date { get; set; }
     
-        public virtual Category Category { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
     }

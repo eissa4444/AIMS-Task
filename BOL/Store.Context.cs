@@ -25,9 +25,11 @@ namespace BOL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Bill_orders> Bill_orders { get; set; }
         public virtual DbSet<Branch> Branches { get; set; }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<Warehouse> WareHouses { get; set; }
     }
