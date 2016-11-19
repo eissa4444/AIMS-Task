@@ -1,0 +1,322 @@
+﻿@model BOL.Order
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Order</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.ord_id)
+
+        <div class="form-group">
+            @Html.Label("Warehouse", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("w_id", null, "------", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("branch", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("b_id", new SelectList(string.Empty, "Value", "Text"), "------", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("Category", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("c_id", new SelectList(string.Empty, "Value", "Text"), "------", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("item", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("it_id", new SelectList(string.Empty, "Value", "Text"), "------", htmlAttributes: new { @class = "form-control" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.it_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.it_id, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.it_id, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.quantity, new { htmlAttributes = new { @class = "form-control", @id = "quantity" } })
+                @Html.ValidationMessageFor(model => model.quantity, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.price_per_quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.price_per_quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.price_per_quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            @Html.Label("bill total", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <input type="number" class="control-label col-md-2" value="0" id="quantity-price" readonly />
+                @*@Html.Label("", htmlAttributes: new { @class = "control-label col-md-2",@, @id = "quantity-price" })*@
+            </div>
+        </div>
+
+        @*<div class="form-group">
+                @Html.LabelFor(model => model.bill_id, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.bill_id, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.bill_id, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input id="append-btn" type="button" value="+" class="btn btn-success" />
+            </div>
+        </div>
+
+        <table class="table" id="tbl">
+            <tr>
+                <th style="display:none;">
+                    it-id
+                </th>
+                <th>
+                    warehouse
+                </th>
+                <th>
+                    branch
+                </th>
+                <th>
+                    category
+                </th>
+                <th>
+                    item
+                </th>
+                <th>
+                    quantity
+                </th>
+                <th>
+                    price for quantity
+                </th>
+                <th></th>
+            </tr>
+
+
+
+
+
+        </table>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" value="submit order" id="submit-btn" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+        $("#w_id").change(function () {
+            $("#b_id").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetBranchs")',
+
+                dataType: 'json',
+
+                data: { w_id: $("#w_id").val() },
+
+                success: function (branchs) {
+
+
+                    $.each(branchs, function (index, branch) {
+                        $("#b_id").append('<option value="' + branch.Value + '">' +
+                             branch.Text + '</option>');
+
+                    });
+                }
+
+
+            });
+            return false;
+        })
+
+
+
+        $("#b_id").change(function () {
+            $("#c_id").empty();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetCategories")',
+
+                dataType: 'json',
+
+                data: { b_id: $("#b_id").val() },
+
+                success: function (Categories) {
+
+
+                    $.each(Categories, function (index, Category) {
+                        $("#c_id").append('<option value="' + Category.Value + '">' +
+                             Category.Text + '</option>');
+
+                    });
+                }
+
+
+            });
+            return false;
+        })
+
+        $("#c_id").change(function () {
+            $("#it_id").text("");
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("GetItems")',
+
+                dataType: 'json',
+
+                data: { c_id: $("#c_id").val() },
+
+                success: function (items) {
+
+
+                    $.each(items, function (index, item) {
+                        $("#it_id").append('<option value="' + item.Value + '">' +
+                             item.Text + '</option>');
+
+                    });
+                }
+
+
+            });
+            return false;
+        })
+    });
+
+    $("#append-btn").on("click", function () {
+        var warehouse = $("#w_id option:selected").text()
+        var branch = $("#b_id option:selected").text()
+        var category = $("#c_id option:selected").text()
+        var item = $("#it_id option:selected").text()
+        var itId = $("#it_id").val();
+        var quantity = $("#quantity").val();
+        var remaining = $("#quantity-price").val();
+        var arrOfOrders = [];
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CalculatPriceTotal")',
+
+            dataType: 'json',
+
+            data: { itId: itId, quantity: quantity, remainig: remaining },
+
+            success: function (total) {
+
+                $("#quantity-price").val(total);
+
+            }
+
+
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("CalculatPricePerUnit")',
+
+            dataType: 'json',
+
+            data: { itId: itId, quantity: quantity },
+
+            success: function (total) {
+                var html = '';
+                html += '<tr>';
+                html += '<td>' + itId + '</td>';
+                html += '<td>' + warehouse + '</td>';
+                html += '<td>' + branch + '</td>';
+                html += '<td>' + category + '</td>';
+                html += '<td>' + item + '</td>';
+                html += '<td>' + quantity + '</td>';
+                html += '<td>' + total + '</td>';
+                html += '<tr>';
+
+                $("#tbl").append(html);
+
+            }
+
+
+        });
+
+    })
+
+    $("#submit-btn").on("click", function () {
+        var quantityPrice = $("#quantity-price").val();
+        $.ajax({
+            type: 'POST',
+            url: '@Url.Action("AddBill")',
+
+            dataType: 'json',
+
+            data: { total_price: quantityPrice },
+
+            success: function (maxBillId) {
+                alert(maxBillId);
+                var tbl = $('#tbl tr:has(td)').map(function (i, v) {
+                    var $td = $('td', this);
+                    return {
+                        it_id: $td.eq(0).text(),
+                        quantity: $td.eq(5).text(),
+                        price_per_quantity: $td.eq(6).text(),
+                        bill_id: maxBillId
+                    }
+                }).get();
+
+                var orders = JSON.stringify(tbl);
+                ///////
+                $.ajax({
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    type: 'POST',
+                    url: '@Url.Action("inserOrders")',
+                    data: orders,
+                    success: function () {
+                        alert("succ");
+                    },
+                    failure: function (response) {
+                        $('#result').html(response);
+                    }
+                });
+            }
+        });
+
+    })
+
+</script>
+
