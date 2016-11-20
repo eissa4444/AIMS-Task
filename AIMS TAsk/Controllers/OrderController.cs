@@ -134,7 +134,7 @@ namespace AIMS_TAsk.Controllers
             bill.bill_date = DateTime.Now.Date;
             bill.total_price = total_price;
             billOrderRepository.InsertBill(bill);
-            var maxBillId = billOrderRepository.GetBillOrders().OrderByDescending(theBill => theBill.bill_id).FirstOrDefault().bill_id;
+            var maxBillId = billOrderRepository.GetBills().OrderByDescending(theBill => theBill.bill_id).FirstOrDefault().bill_id;
             return Json(maxBillId);
         }
 
@@ -143,6 +143,10 @@ namespace AIMS_TAsk.Controllers
             foreach (Order order in theOrders)
             {
                 orederRepository.InsertOrder(order);
+                Item item = itemRepository.GetItemByID(order.it_id);
+                int itemQuantity = item.it_quantity;
+                item.it_quantity = itemQuantity - order.quantity;
+                itemRepository.UpdateItem(item);
             }
             return Json("ok");
         }

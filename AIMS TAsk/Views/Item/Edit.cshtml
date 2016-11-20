@@ -8,12 +8,12 @@
 
 
 @using (Html.BeginForm("Edit",
-    "item",FormMethod.Post,
-    new { enctype = "multipart/form-data" }))
+                                        "item", FormMethod.Post,
+                                        new { enctype = "multipart/form-data" }))
 
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Item</h4>
         <hr />
@@ -39,6 +39,13 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.c_id, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.c_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Label("quantity", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.it_quantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.it_quantity, "", new { @class = "text-danger" })
             </div>
         </div>
 

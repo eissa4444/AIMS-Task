@@ -29,7 +29,7 @@ namespace DAL
             return _context.Bill_orders.Find(billId);
         }
 
-        public IEnumerable<Bill_orders> GetBillOrders()
+        public IEnumerable<Bill_orders> GetBills()
         {
             return _context.Bill_orders.ToList();
         }

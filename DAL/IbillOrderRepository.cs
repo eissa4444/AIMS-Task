@@ -5,7 +5,7 @@ namespace DAL
 {
     public interface IbillOrderRepository
     {
-        IEnumerable<Bill_orders> GetBillOrders();
+        IEnumerable<Bill_orders> GetBills();
         Bill_orders GetBillByID(int billId);
         void InsertBill(Bill_orders bill);
         void Deletebill(int billId);
